@@ -1,0 +1,9 @@
+# 不对外发布的文件
+.git/
+.gitignore
+.assetsignore
+wrangler.jsonc
+README.md
+LICENSE
+test/
+node_modules/

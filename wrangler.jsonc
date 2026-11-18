@@ -1,0 +1,8 @@
+// Cloudflare Workers 静态站点配置：只托管网页文件，不需要任何服务端代码
+{
+  "name": "qimen-job",
+  "compatibility_date": "2025-11-01",
+  "assets": {
+    "directory": "./"
+  }
+}
