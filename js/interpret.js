@@ -267,7 +267,7 @@
       if (nx.isVoid) adviceExtra.push('年命落空：最近心气不足或想法未定，先把目标想清楚');
       if (nx.ruMu.length) adviceExtra.push('年命入墓：容易被埋没，主动展示作品、多做 networking');
     } else {
-      section('盘面总体 · 提示', [{ v: 0, t: '未填出生日期，以日干代表你；填写后改用年命，结果会因人而异' }]);
+      section('盘面总体 · 提示', [{ v: 0, t: '未填出生年份，以日干代表你；填写后改用年命，结果会因人而异' }]);
     }
     section('盘面总体', ov);
     var adv = tips(ch, [jing, kai, self, hourP].filter(Boolean)).concat(adviceExtra);
