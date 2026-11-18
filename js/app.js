@@ -93,13 +93,11 @@
     $('reading').innerHTML = h.join('');
   }
 
-  // ---- 年命：出生年份 + 是否生于立春前（立春前算上一年） ----
+  // ---- 年命：只填出生年份 ----
   var BIRTH_KEY = 'qimen-job:birth';
   function birthYearIdx() {
     var y = parseInt($('birthYear').value, 10);
-    if (!(y >= 1900 && y <= 2100)) return null;
-    if ($('beforeLichun').checked) y -= 1;
-    return Cal.mod(y - 4, 60);
+    return y >= 1900 && y <= 2100 ? Cal.mod(y - 4, 60) : null;
   }
   function onBirth() {
     var idx = birthYearIdx();
@@ -107,29 +105,18 @@
       $('birthHint').textContent = '填了以后用年命代表你，同一时辰不同的人结果也会不同';
     } else {
       var g = Cal.gz(idx), st = Q.effectiveStem(idx);
-      $('birthHint').textContent = '年命 ' + g.name + (st !== g.stem ? '（甲遁于' + st + '）' : '') +
-        ($('beforeLichun').checked ? '，立春前出生按上一年算' : '');
+      $('birthHint').textContent = '年命 ' + g.name + (st !== g.stem ? '（甲遁于' + st + '）' : '');
     }
     try {
-      if ($('birthYear').value) localStorage.setItem(BIRTH_KEY, JSON.stringify({ y: $('birthYear').value, early: $('beforeLichun').checked }));
+      if ($('birthYear').value) localStorage.setItem(BIRTH_KEY, $('birthYear').value);
       else localStorage.removeItem(BIRTH_KEY);
     } catch (e) {}
   }
   ['input', 'change'].forEach(function (ev) { $('birthYear').addEventListener(ev, onBirth); });
-  $('beforeLichun').addEventListener('change', onBirth);
   try {
-    var saved = localStorage.getItem(BIRTH_KEY);
-    if (saved) {
-      var old = /^(\d{4})-(\d{2})-(\d{2})$/.exec(saved); // 旧版存的是完整日期
-      if (old) {
-        var py = Cal.pillars({ y: +old[1], m: +old[2], d: +old[3], h: 12, mi: 0 }, 8).year.idx;
-        $('birthYear').value = old[1];
-        $('beforeLichun').checked = Cal.mod(+old[1] - 4, 60) !== py;
-      } else {
-        var o = JSON.parse(saved); $('birthYear').value = o.y || ''; $('beforeLichun').checked = !!o.early;
-      }
-      onBirth();
-    }
+    var saved = localStorage.getItem(BIRTH_KEY); // 旧版可能存的是完整日期或 JSON，只取年份
+    var sy = saved && /(\d{4})/.exec(saved);
+    if (sy) { $('birthYear').value = sy[1]; onBirth(); }
   } catch (e) {}
 
   // ---- 问题 → 类型自动推荐 ----
