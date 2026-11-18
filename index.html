@@ -6,6 +6,11 @@
 <title>奇门求职盘</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="打开即起盘的时家奇门（转盘·拆补法），专看求职：面试时机、公司机会、offer 与薪资、求职方向。">
+<meta property="og:title" content="奇门求职盘">
+<meta property="og:description" content="写下求职问题，一键起奇门盘：这周有面试吗？某公司有没有机会？offer 与薪资、求职方向。">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#e9ece5">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231c2320'/%3E%3Cpath d='M12 12h40v40H12z' fill='none' stroke='%23e9ece5' stroke-width='3'/%3E%3Cpath d='M25 12v40M39 12v40M12 25h40M12 39h40' stroke='%23e9ece5' stroke-width='2'/%3E%3Crect x='26' y='26' width='12' height='12' fill='%23b8860b'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600&family=Noto+Serif+SC:wght@500;600;700&family=JetBrains+Mono:wght@400&display=swap">
@@ -30,7 +35,7 @@
           <div class="examples" id="examples">
             <span>试试：</span>
             <button type="button" class="ex">这周会有面试吗？</button>
-            <button type="button" class="ex">我投的字节跳动有没有机会？</button>
+            <button type="button" class="ex">我对目标公司有没有机会？</button>
             <button type="button" class="ex">这个 offer 能拿到吗，薪资能谈高吗？</button>
             <button type="button" class="ex">我接下来该往哪个方向找工作？</button>
           </div>
@@ -46,7 +51,7 @@
             <button class="chip" type="button" data-q="direction" aria-pressed="false">求职方向</button>
           </div>
           <div class="fields" id="companyRow" hidden>
-            <input id="company" type="text" placeholder="公司名，例如：字节跳动 / Google" autocomplete="off" aria-label="公司名">
+            <input id="company" type="text" placeholder="填写你想问的公司名（选填）" autocomplete="off" aria-label="公司名">
           </div>
           <p class="err" id="tErr" hidden>选一个问题类型，解盘时才知道看哪个用神。</p>
         </div>

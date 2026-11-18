@@ -106,7 +106,8 @@
   }
   function guessCompany(text) {
     var m = /(?:投的?|对|去|进)\s*([A-Za-z][\w&.\- ]{0,24}?|[\u4e00-\u9fa5]{2,8}?)(?:公司|集团)?\s*(?:有没有|能不能|会不会|机会|面试|笔试|实习|岗位?|的|offer|吗|有戏|[？?。，,]|$)/i.exec(text);
-    return m ? m[1].trim() : '';
+    var name = m ? m[1].trim() : '';
+    return /^(这家|那家|这个|那个|目标|心仪|理想|一家|某家?|新|现在|之前|这|那)$/.test(name) ? '' : name;
   }
   var LABEL = { interview: '面试时机', company: '公司机会', offer: 'Offer 与薪资', direction: '求职方向' };
   var userPicked = false;
