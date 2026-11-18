@@ -1,10 +1,8 @@
 # 奇门求职盘
 
-**👉 立即使用：[https://yuanyuanxie11.github.io/qimen-job/](https://yuanyuanxie11.github.io/qimen-job/)**
+**👉 欢迎使用网站：[https://yuanyuanxie11.github.io/qimen-job/](https://yuanyuanxie11.github.io/qimen-job/)**
 
-手机、电脑打开就能用，不用下载、不用注册。
-
-找工作时总有那几个放不下的问题：这周会不会有面试？投的那家公司有没有戏？offer 能不能拿到、薪资能不能谈高？奇门求职盘用传统的时家奇门，在你提问的那一刻起一盘，专门从求职角度给出解读。
+很多时候在找工作时，我想问：这周会不会有面试？投的那家公司有没有戏？offer 能不能拿到、薪资能不能谈高？奇门求职盘用传统的时家奇门，在你提问的那一刻起一盘，专门从求职角度给出解读。
 
 ## 三步出结果
 
