@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>奇门求职盘</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="打开即起盘的时家奇门（转盘·拆补法），专看求职：面试时机、公司机会、offer 与薪资、求职方向。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600&family=Noto+Serif+SC:wght@500;600;700&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <h1>奇门求职盘</h1>
+      <p>时家奇门 · 转盘 · 拆补法｜写下问题、选好类型，按起盘那一刻排盘解读</p>
+    </div>
+    <div class="pillars" id="pillars" aria-label="四柱"></div>
+  </header>
+
+  <div class="layout">
+    <section aria-label="起盘">
+      <form class="ask" id="askForm" novalidate>
+        <div class="step">
+          <label class="step-h" for="question"><span class="n">1</span>写下你的问题</label>
+          <textarea id="question" rows="2" maxlength="120" placeholder="例如：我这周能收到面试邀请吗？"></textarea>
+          <div class="examples" id="examples">
+            <span>试试：</span>
+            <button type="button" class="ex">这周会有面试吗？</button>
+            <button type="button" class="ex">我投的字节跳动有没有机会？</button>
+            <button type="button" class="ex">这个 offer 能拿到吗，薪资能谈高吗？</button>
+            <button type="button" class="ex">我接下来该往哪个方向找工作？</button>
+          </div>
+          <p class="err" id="qErr" hidden>先写下你想问的事，再起盘。</p>
+        </div>
+
+        <div class="step">
+          <div class="step-h" id="typeLabel"><span class="n">2</span>选择问题类型<small id="autoHint"></small></div>
+          <div class="chips" role="group" aria-labelledby="typeLabel" id="chips">
+            <button class="chip" type="button" data-q="interview" aria-pressed="false">面试时机</button>
+            <button class="chip" type="button" data-q="company" aria-pressed="false">公司机会</button>
+            <button class="chip" type="button" data-q="offer" aria-pressed="false">Offer 与薪资</button>
+            <button class="chip" type="button" data-q="direction" aria-pressed="false">求职方向</button>
+          </div>
+          <div class="fields" id="companyRow" hidden>
+            <input id="company" type="text" placeholder="公司名，例如：字节跳动 / Google" autocomplete="off" aria-label="公司名">
+          </div>
+          <p class="err" id="tErr" hidden>选一个问题类型，解盘时才知道看哪个用神。</p>
+        </div>
+
+        <div class="step">
+          <div class="step-h"><span class="n">3</span>起盘</div>
+          <div class="fields">
+            <button class="btn big" type="submit" id="castBtn">起盘</button>
+            <details class="when">
+              <summary>指定时间（默认此刻）</summary>
+              <div class="fields">
+                <input id="when" type="datetime-local" aria-label="起盘时间">
+                <select id="tz" aria-label="时区">
+                  <option value="local">本地时区</option>
+                  <option value="8">北京时间 UTC+8</option>
+                </select>
+                <label class="nowlbl"><input type="checkbox" id="useNow" checked> 用起盘那一刻</label>
+              </div>
+            </details>
+          </div>
+        </div>
+      </form>
+
+      <div class="meta" id="meta"></div>
+      <div class="board" id="board" aria-label="九宫盘（上南下北）"></div>
+      <p class="legend" id="legend">上南下北、左东右西。每宫：左上八神 · 中间九星与天盘干 · 门 · 右下地盘干。标记：空=空亡，马=驿马，迫=门迫，刑=击刑，墓=入墓。黄框为本题用神。</p>
+    </section>
+
+    <section class="reading" id="reading" aria-live="polite"></section>
+  </div>
+
+  <footer>
+    一事一占，诚心起盘；同一时辰起出的盘相同。本工具基于传统术数规则自动生成解读，仅供娱乐与自我反思，不构成任何职业建议。简历、作品和准备永远比卦象重要。
+  </footer>
+</div>
+<script src="js/calendar.js"></script>
+<script src="js/qimen.js"></script>
+<script src="js/interpret.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
