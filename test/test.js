@@ -69,4 +69,23 @@ t('结构不变量：一年内每个时辰的盘都完整', () => {
     }
   }
 });
+
+t('年命：按立春换年，甲年遁于旬首六仪，不同年命结果不同', () => {
+  // 1996-02-03 在立春前 → 乙亥年；1996-02-05 → 丙子年
+  assert.strictEqual(C.pillars({ y: 1996, m: 2, d: 3, h: 12, mi: 0 }, 8).year.name, '乙亥');
+  assert.strictEqual(C.pillars({ y: 1996, m: 2, d: 5, h: 12, mi: 0 }, 8).year.name, '丙子');
+  // 甲子年遁戊，甲戌年遁己
+  assert.strictEqual(Q.effectiveStem(0), '戊');
+  assert.strictEqual(Q.effectiveStem(10), '己');
+  const ch = Q.cast({ y: 2026, m: 11, d: 18, h: 15, mi: 30 }, 8);
+  // 丙子年（idx 12）年干丙 → 天盘丙在坎1
+  const r1 = I.read(ch, 'company', { birthYearIdx: 12 });
+  assert.strictEqual(r1.nian.p, 1); assert.ok(r1.marks[1].includes('年命·你'));
+  // 戊年生（戊寅 idx 14）→ 天盘戊在兑7，与日干宫不同，分数应不同
+  const r2 = I.read(ch, 'company', { birthYearIdx: 14 });
+  assert.strictEqual(r2.nian.p, 7);
+  assert.notStrictEqual(r1.score, r2.score);
+  const r0 = I.read(ch, 'company', {});
+  assert.strictEqual(r0.nian, null);
+});
 console.log(n + ' tests passed');

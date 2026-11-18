@@ -105,7 +105,7 @@
   /** 我（日干宫）与目标宫的五行关系 */
   function relate(ch, selfP, targetP, who) {
     if (!selfP || !targetP) return { v: 0, t: '' };
-    if (selfP === targetP) return { v: 2, t: '日干（你）与' + who + '同宫：直接相会，缘分到位' };
+    if (selfP === targetP) return { v: 2, t: '你与' + who + '同宫：直接相会，缘分到位' };
     var a = ch.palaces[selfP].elem, b = ch.palaces[targetP].elem;
     switch (Q.relation(b, a)) {
       case '生': return { v: 2, t: who + '宫（' + b + '）生你（' + a + '）：对方主动青睐你' };
@@ -178,14 +178,20 @@
 
   function read(ch, qtype, extra) {
     extra = extra || {};
-    var self = ch.dayPalace, hourP = ch.hourPalace;
+    var hourP = ch.hourPalace, self = ch.dayPalace, nian = null;
+    if (typeof extra.birthYearIdx === 'number') {
+      var ny = Cal.gz(extra.birthYearIdx), nStem = Q.effectiveStem(extra.birthYearIdx);
+      nian = { gz: ny.name, stem: nStem, p: ch.heavenPalaceOf(nStem) };
+      if (nian.p) self = nian.p; // 有年命时以年命代表你本人
+    }
     var jing = ch.doorPalaceOf('景门'), kai = ch.doorPalaceOf('开门'), sheng = ch.doorPalaceOf('生门');
     var ding = ch.heavenPalaceOf('丁'), wu = ch.heavenPalaceOf('戊');
-    var sections = [], marks = {}, score = 0, verdict, title, tm = null;
+    var sections = [], marks = {}, score = 0, verdict, title, tm = null, adviceExtra = [];
 
     function mark(p, label) { if (!p) return; (marks[p] = marks[p] || []).push(label); }
     function section(h, items) { sections.push({ h: h, items: items.filter(function (i) { return i && i.t; }) }); }
-    mark(self, '日干·你');
+    if (nian && nian.p) { mark(nian.p, '年命·你'); if (ch.dayPalace !== nian.p) mark(ch.dayPalace, '日干·当下的你'); }
+    else mark(self, '日干·你');
 
     var ov = overall(ch);
     ov.forEach(function (o) { score += o.v; });
@@ -250,11 +256,24 @@
       section('事业状态 · 开门在' + pname(ch, kai), K2.notes.concat([R5]));
     }
 
+    if (nian && nian.p) {
+      var NP = evalPalace(ch, nian.p);
+      if (nian.p === hourP && qtype !== 'direction') {
+        NP = { s: 1, notes: [{ v: 1, t: '年命与时干同宫：你本人就是这件事成败的关键，主动权在你（宫内细节见「结果走向」）' }] };
+      }
+      score += NP.s * 0.3;
+      var nx = ch.palaces[nian.p];
+      section('你的年命 · ' + nian.gz + '年生，' + nian.stem + (nian.stem !== nian.gz[0] ? '（甲遁' + nian.stem + '）' : '') + '落' + pname(ch, nian.p), NP.notes.length ? NP.notes : [{ v: 0, t: '年命宫平稳，状态中性' }]);
+      if (nx.isVoid) adviceExtra.push('年命落空：最近心气不足或想法未定，先把目标想清楚');
+      if (nx.ruMu.length) adviceExtra.push('年命入墓：容易被埋没，主动展示作品、多做 networking');
+    } else {
+      section('盘面总体 · 提示', [{ v: 0, t: '未填出生日期，以日干代表你；填写后改用年命，结果会因人而异' }]);
+    }
     section('盘面总体', ov);
-    var adv = tips(ch, [jing, kai, self, hourP].filter(Boolean));
+    var adv = tips(ch, [jing, kai, self, hourP].filter(Boolean)).concat(adviceExtra);
     if (verdict.i >= 3) adv.push('同时多开几条线，不把希望压在一家');
     if (verdict.i <= 1) adv.push('趁势而上：这段时间多投、多约面');
-    return { title: title, score: Math.round(score * 10) / 10, verdict: verdict, sections: sections, marks: marks, timing: tm, tips: adv };
+    return { nian: nian, title: title, score: Math.round(score * 10) / 10, verdict: verdict, sections: sections, marks: marks, timing: tm, tips: adv };
   }
 
   var api = { read: read, evalPalace: evalPalace, relate: relate };

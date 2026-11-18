@@ -70,7 +70,7 @@
 
   function renderReading() {
     var ch = state.chart;
-    var r = J.read(ch, state.q, { company: $('company').value, question: state.text });
+    var r = J.read(ch, state.q, { company: $('company').value, question: state.text, birthYearIdx: birthYearIdx() });
     $('board').innerHTML = LAYOUT.map(function (p) { return cellHtml(p, r.marks); }).join('');
 
     var v = r.verdict, h = [];
@@ -92,6 +92,31 @@
     if (r.tips.length) h.push('<div class="sec"><h3>行动建议</h3><ul class="tips">' + r.tips.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul></div>');
     $('reading').innerHTML = h.join('');
   }
+
+  // ---- 年命：出生日期按立春换年取年柱 ----
+  var BIRTH_KEY = 'qimen-job:birth';
+  function parseBirth() {
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec($('birth').value);
+    return m ? { y: +m[1], m: +m[2], d: +m[3] } : null;
+  }
+  function birthYearIdx() {
+    var b = parseBirth();
+    if (!b || b.y < 1900 || b.y > 2100) return null;
+    return Cal.pillars({ y: b.y, m: b.m, d: b.d, h: 12, mi: 0 }, 8).year.idx;
+  }
+  function onBirth() {
+    var idx = birthYearIdx();
+    if (idx === null) {
+      $('birthHint').textContent = '填了以后用年命代表你，同一时辰不同的人结果也会不同';
+    } else {
+      var g = Cal.gz(idx), st = Q.effectiveStem(idx);
+      $('birthHint').textContent = '年命 ' + g.name + (st !== g.stem ? '（甲遁于' + st + '）' : '') + '，按立春换年';
+    }
+    try { if ($('birth').value) localStorage.setItem(BIRTH_KEY, $('birth').value); else localStorage.removeItem(BIRTH_KEY); } catch (e) {}
+  }
+  $('birth').addEventListener('change', onBirth);
+  $('birth').addEventListener('input', onBirth);
+  try { var saved = localStorage.getItem(BIRTH_KEY); if (saved) { $('birth').value = saved; onBirth(); } } catch (e) {}
 
   // ---- 问题 → 类型自动推荐 ----
   var RULES = [

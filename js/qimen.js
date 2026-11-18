@@ -170,8 +170,13 @@
     };
   }
 
+  /** 某干支的「有效天干」：甲遁于所在旬首六仪之下 */
+  function effectiveStem(gzIdx) {
+    return gzIdx % 10 === 0 ? YI[Math.floor(gzIdx / 10)] : STEMS[gzIdx % 10];
+  }
+
   var api = {
-    cast: cast, PALACE: PALACE, RING: RING, GODS: GODS, STAR_ELEM: STAR_ELEM, DOOR_ELEM: DOOR_ELEM,
+    cast: cast, effectiveStem: effectiveStem, PALACE: PALACE, RING: RING, GODS: GODS, STAR_ELEM: STAR_ELEM, DOOR_ELEM: DOOR_ELEM,
     relation: relation, seasonState: seasonState, palaceOfBranch: palaceOfBranch, GEN: GEN, KE: KE
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
